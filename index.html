@@ -227,7 +227,7 @@ function renderQuery(){
   });
   res.sort(function(a,b){return (a.date+a.start).localeCompare(b.date+b.start)});
   $("#q-summary").textContent="符合條件共 "+res.length+" 場";
-  var html=res.map(function(x){var mk=_maKey(x);return "<tr data-mak=\""+esc(mk)+"\"><td>"+esc(x.day)+"</td><td>"+esc(x.start)+"-"+esc(x.end)+"</td><td><span class=\"tag tag-venue\">"+esc(x.venue)+"</span></td><td><span class=\"tag tag-dept\">"+esc(x.dept)+"</span></td><td>"+typeTag(x.type)+"</td><td><span class=\"pick-star\" data-mak=\""+esc(mk)+"\" title=\"加入/移除我的行程\">☆</span>"+esc(x.title)+"</td><td><b>"+esc(x.speaker)+"</b></td><td>"+esc(x.org||"")+"</td><td style=\"font-size:.9em;color:#666\">"+esc(x.chair||"")+"</td></tr>"}).join("");
+  var html=res.map(function(x){var mk=_maKey(x);var dateCell=x.type==="E-Poster"?"<td colspan=\"2\" style=\"color:#888;font-style:italic\">全日展出</td>":"<td>"+esc(x.day)+"</td><td>"+esc(x.start)+"-"+esc(x.end)+"</td>";return "<tr data-mak=\""+esc(mk)+"\">"+dateCell+"<td><span class=\"tag tag-venue\">"+esc(x.venue)+"</span></td><td><span class=\"tag tag-dept\">"+esc(x.dept)+"</span></td><td>"+typeTag(x.type)+"</td><td><span class=\"pick-star\" data-mak=\""+esc(mk)+"\" title=\"加入/移除我的行程\">☆</span>"+esc(x.title)+"</td><td><b>"+esc(x.speaker)+"</b></td><td>"+esc(x.org||"")+"</td><td style=\"font-size:.9em;color:#666\">"+esc(x.chair||"")+"</td></tr>"}).join("");
   $("#q-tbl tbody").innerHTML=html||"<tr><td colspan=9 style=text-align:center;padding:20px;color:#888>沒有符合的議程</td></tr>";
   setTimeout(maRefreshUI,0);
 }
@@ -338,7 +338,7 @@ function renderTL(){
                 + '<span class="pick-star qc-star" data-mak="' + escapeHTML(mk) + '" title="加入/移除我的行程">☆</span>'
                 + '<div class="qc-title">' + escapeHTML(x.title) + '</div>'
                 + '<div class="qc-tags">'
-                +   '<span class="qc-tag date">' + escapeHTML(x.day) + ' ' + escapeHTML(x.start + '-' + x.end) + '</span>'
+                +   (x.type==='E-Poster' ? '<span class="qc-tag date" style="color:#888;font-style:italic">全日展出</span>' : '<span class="qc-tag date">' + escapeHTML(x.day) + ' ' + escapeHTML(x.start + '-' + x.end) + '</span>')
                 +   '<span class="qc-tag venue">' + escapeHTML(x.venue) + '</span>'
                 +   '<span class="qc-tag dept">' + escapeHTML(x.dept) + '</span>'
                 +   (x.type ? '<span class="qc-tag type">' + escapeHTML(x.type) + '</span>' : '')
